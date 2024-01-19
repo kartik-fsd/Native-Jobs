@@ -10,13 +10,14 @@
   },
   "dependencies": {
     "axios": "^1.6.5",
-    "expo": "~49.0.15",
+    "expo": "^49.0.0",
     "expo-constants": "~14.4.2",
     "expo-font": "~11.4.0",
     "expo-linking": "~5.0.2",
     "expo-router": "^2.0.0",
     "expo-splash-screen": "~0.20.4",
     "expo-status-bar": "~1.6.0",
+    "expo-updates": "~0.18.19",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-native": "0.72.6",
@@ -28,7 +29,8 @@
     "react-native-web": "~0.19.6"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0"
+    "@babel/core": "^7.20.0",
+    "gh-pages": "^6.1.1"
   },
   "private": true
 }

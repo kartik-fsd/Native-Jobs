@@ -8,6 +8,11 @@
       "expo-router"
     ],
     "name": "REACT_NATIVE_JOBS",
-    "slug": "REACT_NATIVE_JOBS"
+    "slug": "REACT_NATIVE_JOBS",
+    "expo": {
+      "experiments": {
+        "baseUrl": "/expo-gh-pages"
+      }
+    }
   }
 }

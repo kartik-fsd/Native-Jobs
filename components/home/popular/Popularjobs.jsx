@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { View, Text ,TouchableOpacity , FlatList , ActivityIndicator} from 'react-native'
 import styles from './popularjobs.style'
 import { useRouter } from 'expo-router'
@@ -12,9 +12,16 @@ const Popularjobs = () => {
     query :"Frontend Developer",
     num_pages : "1",
   });
+
+  const [selectedJob , setSelectedJobs] = useState()
+
+  const handleCardPress = (item) =>{
+      router.push(`/job-details/${item.job_id}`);
+      setSelectedJobs(item.job_id);
+  }
   return (
     <View style={styles.container}>
-      <View styles={styles.header}>
+      <View style={styles.header}>
       <Text style={styles.headerTitle}>Popularjobs</Text>
       <TouchableOpacity>
       <Text style = {styles.headerBtn}>
@@ -34,6 +41,8 @@ const Popularjobs = () => {
             renderItem={({item}) => (
               <PopularJobCard 
               item = {item}
+              selectedJob={selectedJob}
+              handleCardPress={handleCardPress}
               />
             ) }
             keyExtractor={(item) => item.job_id}

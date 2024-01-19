@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import {
   Text,
   View,
@@ -6,6 +6,7 @@ import {
   ScrollView,
   ActivityIndicator,
   RefreshControl,
+  Share,
 } from "react-native";
 
 import {
@@ -33,7 +34,16 @@ const JobsDetails = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [activeTab, setActiveTab] = useState(tabs[0]);
 
-  const onRefresh = () => {};
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    try {
+      await refetch();
+    } catch (error) {
+      console.error('Error refreshing data', error);
+    }
+    setRefreshing(false);
+  }, [refetch]);
+  
 
   const displayTabContent = () => {
     switch (activeTab) {
@@ -46,19 +56,46 @@ const JobsDetails = () => {
         );
       case "About":
         return (
-            <JobAbout info={data[0].job_description ?? "No data provided"} />
-      );
+          <JobAbout info={data[0].job_description ?? "No data provided"} />
+        );
       case "Responsibilities":
         return (
-            <Specifics
-              title="Responsibilities"
-              points={data[0].job_highlights?.Responsibilities ?? ["N/A"]}
-            />
-          );
+          <Specifics
+            title="Responsibilities"
+            points={data[0].job_highlights?.Responsibilities ?? ["N/A"]}
+          />
+        );
       default:
         break;
     }
   };
+
+  const handleShare = async () => {
+    try {
+      const shareOptions = {
+        title: "Share Job Link",
+        message: `Check out this job: ${
+          data[0]?.job_google_link ?? "https://carrers.google.com/results"
+        }`,
+        url: data[0]?.job_google_link ?? "https://carrers.google.com/results",
+        subject: "Job Link",
+      };
+
+      const result = await Share.share(shareOptions);
+
+        if (result.action === Share.sharedAction) {
+          if (result.activityType) {
+            console.log("shared with activity", result.activityType);
+          } else {
+            console.log("shared");
+          }
+        } else if (result.action === Share.dismissedAction) {
+          console.log("Share dismissed");
+        }
+      } catch (error) {
+        console.error("Error sharing job link", error.message);
+      }
+    };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>
@@ -75,7 +112,11 @@ const JobsDetails = () => {
             />
           ),
           headerRight: () => (
-            <ScreenHeaderBtn iconUrl={icons.share} dimension="60%" />
+            <ScreenHeaderBtn
+              iconUrl={icons.share}
+              dimension="60%"
+              handlePress={handleShare}
+            />
           ),
           headerTitle: "",
         }}
@@ -111,7 +152,9 @@ const JobsDetails = () => {
             </View>
           )}
         </ScrollView>
-        <JobFooter url = {data[0]?.job_google_link ?? 'https://carrers.google.com/results'}/>
+        <JobFooter
+          url={data[0]?.job_google_link ?? "https://carrers.google.com/results"}
+        />
       </>
     </SafeAreaView>
   );

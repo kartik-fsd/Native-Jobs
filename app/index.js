@@ -9,6 +9,7 @@ import {
   ScreenHeaderBtn,
   Welcome,
 } from "../components";
+import ProfileDropdown from "../components/Profile/Profile";
 
 function Home() {
   const router = useRouter();
@@ -25,7 +26,8 @@ function Home() {
             <ScreenHeaderBtn iconUrl={icons.menu} dimension="100%" />
           ),
           headerRight: () => (
-            <ScreenHeaderBtn iconUrl={images.profile} dimension="100%" />
+          // <ScreenHeaderBtn iconUrl={images.profile} dimension="100%" />
+             <ProfileDropdown iconUrl={images.profile} dimension="100%"/>
           ),
           headerTitle: "",
         }}

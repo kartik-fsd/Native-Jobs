@@ -4,8 +4,6 @@ import { View, Text } from 'react-native'
 import styles from './about.style'
 
 const About = ({info}) => {
-
-  console.log(info,"text")
   return (
     <View style={styles.container}>
       <Text style={styles.headText}>
